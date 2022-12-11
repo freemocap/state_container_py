@@ -15,3 +15,8 @@ class Reducer(ABC):
     @abstractmethod
     def state_key(self):
         pass
+
+    @property
+    @abstractmethod
+    def type(self):
+        pass
