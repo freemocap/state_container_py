@@ -1,10 +1,11 @@
+from state_container_py.base_state import BaseState
 from state_container_py.reducer import Reducer
 
 
 # TODO: Deal with defaults
-class TodoState:
-    name: str
-    thing_to_do: str
+class TodoState(BaseState):
+    name: str = ""
+    completed: bool = False
 
 
 class TodoReducer(Reducer):
@@ -16,9 +17,6 @@ class TodoReducer(Reducer):
 
     def respond_to_action(self, state: TodoState, action):
         if action.type == 'UPDATE':
-            return {
-                **state,
-                **action.payload,
-            }
-
+            state.name = action.payload
+            return state
         return state
