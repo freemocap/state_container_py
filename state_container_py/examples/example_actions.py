@@ -1,14 +1,26 @@
+from pydantic import BaseModel
+
 from state_container_py.action import Action
-from state_container_py.examples.reducer import TodoReducer
+from state_container_py.app_state import ApplicationState
+from state_container_py.examples.todo_reducer import TodoItem, TodoReducer, TodoState
 from state_container_py.store import Store
 
+
+class TodoAppState(ApplicationState):
+    todos: TodoState
+
+
 action1 = Action(
-    type='Test1',
-    payload='Some shit'
+    type='NEW_TODO',
+    payload=TodoItem(
+        name="1",
+        thing_to_do="testing"
+    )
 )
 
 reducers = [TodoReducer, ]
-# TODO: Combine reducers using class-based version
 
-store = Store(reducer)
+store = Store(TodoAppState.construct(), reducers)
 store.dispatch(action1)
+
+print(store.state())
